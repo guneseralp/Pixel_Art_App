@@ -6,18 +6,18 @@ let gridHeight = document.getElementById("height-range");
 let colorButton = document.getElementById("color-input");
 let eraseBtn = document.getElementById("erase-btn");
 let paintBtn = document.getElementById("paint-btn");
-let widthValue = document.getElementById ("witdh-value");
+let widthValue = document.getElementById ("width-value");
 let heightValue = document.getElementById("height-value");
 
 let events = {
     mouse: {
         down:"mousedown",
-        up: "mouseup",
-        move: "mousemove"
+        move: "mousemove",
+        up: "mouseup"
     },
     touch: {
         down: "touchstart",
-        move: "touchmove",
+        mobe: "touchmove",
         up: "touchend",
     },
 };
@@ -32,8 +32,7 @@ const isTouchDevice = () => {
         document.createEvent("TouchEvent");
         deviceType= "touch";
         return true;    
-    }
-    catch (e) {
+    } catch (e) {
         deviceType = "mouse";
         return false;
     }
@@ -47,11 +46,12 @@ gridButton.addEventListener("click",() => {
     for(let i=0; i < gridHeight.value;i++){
         count +=2;
         let div =document.createElement ("div");
-        col.classList.add("gridRow");
+        div.classList.add("gridRow");
 
-        for(let j =0; j< gridWidth.ariaValueMax; j++){
+        for(let j =0; j< gridWidth.value; j++){
             count +=2;
-            col.classList.add("div");
+            let col =  document.createElement("div");
+            col.classList.add("gridCol");
             col.setAttribute("id",`gridCol${count}`);
             col.addEventListener(events[deviceType].down, () => {
                 draw = true;
@@ -78,13 +78,13 @@ gridButton.addEventListener("click",() => {
 
         }
 
-        div.appendChild(div);
+        container.appendChild(div);
 
     }
 });
 
 function checker(elementId){
-    let gridColumns = document.querySelector(".gridCol");
+    let gridColumns = document.querySelectorAll(".gridCol");
     gridColumns.forEach((element) => {
         if(elementId ==element.id){
             if(draw && !erase){
